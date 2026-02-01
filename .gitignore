@@ -1,0 +1,48 @@
+# ========================================
+# OpenClaw Dockerized Bot - .gitignore
+# ========================================
+
+# === 環境變數 (含敏感 API Keys) ===
+.env
+
+# === OpenClaw 敏感資料 ===
+# Chat 平台認證 (WhatsApp session, Telegram token 等)
+openclaw-data/credentials/
+
+# 裝置身份與配對資訊
+openclaw-data/identity/
+openclaw-data/devices/
+
+# Session 資料 (對話歷史，太大且含隱私)
+openclaw-data/agents/*/sessions/
+
+# 媒體檔案 (圖片/音訊/視訊，太大)
+openclaw-data/media/
+
+# Telegram offset (運行時狀態)
+openclaw-data/telegram/
+
+# 更新檢查狀態
+openclaw-data/update-check.json
+
+# === macOS ===
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# === Node.js (如果有本地開發) ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === 暫存檔案 ===
+*.tmp
+*.temp
+*.log
