@@ -24,7 +24,7 @@ services:
     
     # 資料掛載
     volumes:
-      - ../openclaw-data:/home/node/.openclaw
+      - ../openclaw-data:/root/.openclaw
     
     # Gateway API 端口 (可選，用於外部 API 呼叫)
     # 預設 bind 到 loopback，需要改 openclaw.json 才能外部存取

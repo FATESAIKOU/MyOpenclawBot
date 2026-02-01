@@ -24,14 +24,14 @@ services:
     init: true
     
     environment:
-      HOME: /home/node
+      HOME: /root
       TERM: xterm-256color
       # 告訴 openclaw 不要嘗試開啟瀏覽器
       BROWSER: echo
     
     volumes:
       # 掛載 openclaw 資料目錄
-      - ../openclaw-data:/home/node/.openclaw
+      - ../openclaw-data:/root/.openclaw
     
     # 預設 entrypoint 是 openclaw，可直接帶參數
     # 例如: docker compose run --rm openclaw-cli onboard

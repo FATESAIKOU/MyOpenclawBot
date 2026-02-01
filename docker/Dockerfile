@@ -16,21 +16,25 @@ RUN apt-get update && \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# 給 node 用戶 sudo 權限 (Homebrew 安裝需要)
-RUN echo "node ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+# 建立 .openclaw 目錄
+RUN mkdir -p /root/.openclaw
 
-# 建立 home 目錄
-RUN mkdir -p /home/node/.openclaw && \
-    chown -R node:node /home/node
+# 建立 linuxbrew 用戶安裝 Homebrew (Homebrew 不允許 root 安裝)
+RUN useradd -m -s /bin/bash linuxbrew && \
+    echo "linuxbrew ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# 切換到 node 用戶安裝 Homebrew
-USER node
-WORKDIR /home/node
+# 切換到 linuxbrew 用戶安裝 Homebrew
+USER linuxbrew
+WORKDIR /home/linuxbrew
 
 # 安裝 Homebrew (Linuxbrew)
 RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# 設定 Homebrew 環境變數
+# 切回 root
+USER root
+WORKDIR /root
+
+# 設定 Homebrew 環境變數 (給所有用戶使用)
 ENV HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 ENV HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
 ENV HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
@@ -39,11 +43,11 @@ ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}
 # 驗證 brew 安裝
 RUN brew --version
 
-# 安裝 OpenClaw CLI (用 sudo 因為全域安裝需要 root)
-RUN sudo npm install -g openclaw@latest
+# 安裝 OpenClaw CLI
+RUN npm install -g openclaw@latest
 
 # 設定環境變數
-ENV HOME=/home/node
+ENV HOME=/root
 ENV NODE_ENV=production
 
 # 預設進入點
