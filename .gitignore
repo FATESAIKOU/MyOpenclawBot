@@ -6,6 +6,12 @@
 .env
 
 # === OpenClaw 敏感資料 ===
+# 主設定檔 (包含 gateway token, telegram botToken 等敏感資訊)
+openclaw-data/openclaw.json
+
+# Agent 資料 (包含 OAuth tokens, auth-profiles.json 等極敏感資訊)
+openclaw-data/agents/
+
 # Chat 平台認證 (WhatsApp session, Telegram token 等)
 openclaw-data/credentials/
 
