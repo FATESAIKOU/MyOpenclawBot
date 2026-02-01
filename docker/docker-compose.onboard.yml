@@ -1,0 +1,39 @@
+# ========================================
+# OpenClaw Onboard - 初始化配置用
+# ========================================
+# 用法:
+#   docker compose -f docker-compose.onboard.yml build
+#   docker compose -f docker-compose.onboard.yml run --rm openclaw-cli onboard
+#
+# OAuth 流程:
+#   1. CLI 會印出登入 URL
+#   2. 在本機瀏覽器開啟該 URL 登入
+#   3. 登入後把 redirect URL 貼回 terminal
+# ========================================
+
+services:
+  openclaw-cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: openclaw-bot:local
+    
+    # 互動模式 (OAuth 需要)
+    stdin_open: true
+    tty: true
+    init: true
+    
+    environment:
+      HOME: /home/node
+      TERM: xterm-256color
+      # 告訴 openclaw 不要嘗試開啟瀏覽器
+      BROWSER: echo
+    
+    volumes:
+      # 掛載 openclaw 資料目錄
+      - ../openclaw-data:/home/node/.openclaw
+    
+    # 預設 entrypoint 是 openclaw，可直接帶參數
+    # 例如: docker compose run --rm openclaw-cli onboard
+    #       docker compose run --rm openclaw-cli channels login
+    #       docker compose run --rm openclaw-cli doctor
