@@ -28,8 +28,8 @@ services:
     
     # Gateway API 端口 (可選，用於外部 API 呼叫)
     # 預設 bind 到 loopback，需要改 openclaw.json 才能外部存取
-    # ports:
-    #   - "18789:18789"
+    ports:
+      - "18789:18789"
     
     # 健康檢查
     healthcheck:
